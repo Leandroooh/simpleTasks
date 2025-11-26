@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:15
+    container_name: simplestasks
+    restart: always
+    environment:
+      POSTGRES_USER: simpleadmin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: simplestasks_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+volumes:
+  pgdata:
