@@ -7,6 +7,8 @@ import {
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
+import { LoginUserRoute } from "./routes/users/loginUserRoute.js";
+import { RegisterUserRoute } from "./routes/users/registerUserRoute.js";
 
 const app = fastify();
 
@@ -44,8 +46,12 @@ app.register(fastifyCors, {
 	methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 });
 
+app.register(LoginUserRoute);
+app.register(RegisterUserRoute);
+
 app
 	.listen({ port: Number(process.env.PORT) || 3000, host: "0.0.0.0" })
 	.then(() => {
-		console.log("Server listening on port 3000");
+		console.log("🎨 API running at http://localhost:3000");
+		console.log("🎁 Docs running at http://localhost:3000/docs");
 	});
