@@ -7,8 +7,8 @@ import {
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
-import { LoginUserRoute } from "./routes/users/loginUserRoute.js";
-import { RegisterUserRoute } from "./routes/users/registerUserRoute.js";
+import { LoginUserRoute } from "./routes/auth/loginRoute.js";
+import { RegisterUserRoute } from "./routes/auth/registerRoute.js";
 
 const app = fastify();
 

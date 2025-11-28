@@ -3,14 +3,14 @@ import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "@/prisma/client.js";
 
-export async function RegisterUserRoute(app: FastifyInstance) {
+export async function LoginUserRoute(app: FastifyInstance) {
 	app.withTypeProvider<ZodTypeProvider>().post(
-		"/auth/register",
+		"/auth/login",
 		{
 			schema: {
 				tags: ["Auth"],
 				body: z.object({
-					email: z.string(),
+					email: z.email(),
 					password: z.string(),
 				}),
 			},
