@@ -112,5 +112,3 @@ curl -X DELETE http://localhost:3000/task/delete/<id> -H "Authorization: Bearer 
 - Ao alterar o schema, rode `pnpm prisma migrate dev` e `pnpm prisma generate`.
 
 ---
-
-Se quiser, posso adicionar um README com exemplos de Postman/Insomnia ou templates de `.env` e scripts adicionais para CI/CD.
