@@ -1,45 +1,67 @@
 import type { FastifyInstance } from "fastify";
 import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import z from "zod";
+import { AuthHandler } from "@/middlewares/AuthHandler.js";
 import { prisma } from "@/prisma/client.js";
 
 export async function GetTasksRoute(app: FastifyInstance) {
-	app.withTypeProvider<ZodTypeProvider>().get(
-		"/tasks",
-		{
-			schema: {
-				tags: ["Task"],
-				querystring: z.object({
-					page: z.coerce.number().default(1),
-					pageSize: z.coerce.number().default(6),
-				}),
+	app
+		.withTypeProvider<ZodTypeProvider>()
+		.register(AuthHandler)
+		.get(
+			"/tasks",
+			{
+				schema: {
+					tags: ["Task"],
+					querystring: z.object({
+						page: z.coerce.number().int().min(1).default(1),
+						pageSize: z.coerce.number().int().min(1).max(100).default(6),
+					}),
+				},
 			},
-		},
-		async (request, reply) => {
-			const { page, pageSize } = request.query;
-			const userId = await request.getCurrentUserToken();
+			async (request, reply) => {
+				const { page, pageSize } = request.query;
+				const userId = await request.getCurrentUserToken();
 
-			const pageCountItems = await prisma.task.count({
-				where: {
-					userId,
-				},
-			});
+				const totalItems = await prisma.task.count({
+					where: {
+						userId,
+					},
+				});
 
-			const totalPages = Math.ceil(pageCountItems / pageSize);
+				// Nenhuma task — retornar lista vazia, não 404
+				if (totalItems === 0) {
+					return reply.status(200).send({
+						userTasks: [],
+						pageCountItems: 0,
+						totalPages: 0,
+					});
+				}
 
-			const userTasks = await prisma.task.findMany({
-				skip: (page - 1) * pageSize,
-				take: pageSize,
-				where: {
-					userId,
-				},
-			});
+				const totalPages = Math.ceil(totalItems / pageSize);
 
-			if (userTasks.length === 0) {
-				return reply.status(404).send({ message: "Any task found!" });
-			}
+				// Página maior do que existe → página vazia, comportamento consistente
+				if (page > totalPages) {
+					return reply.status(200).send({
+						userTasks: [],
+						pageCountItems: totalItems,
+						totalPages,
+					});
+				}
 
-			return reply.status(200).send({ userTasks, pageCountItems, totalPages });
-		},
-	);
+				const userTasks = await prisma.task.findMany({
+					skip: (page - 1) * pageSize,
+					take: pageSize,
+					where: {
+						userId,
+					},
+				});
+
+				return reply.status(200).send({
+					userTasks,
+					pageCountItems: totalItems,
+					totalPages,
+				});
+			},
+		);
 }

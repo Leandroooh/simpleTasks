@@ -27,12 +27,15 @@ model User {
 }
 
 model Task {
-  id      String @id @default(uuid())
-  title   String @default("New Task")
-  content String @default("N/A")
+  id      String  @id @default(uuid())
+  title   String  @default("New Task")
+  content String?
 
   user   User   @relation(fields: [userId], references: [id])
   userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   @@map("tasks")
 }
