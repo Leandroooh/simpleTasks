@@ -1,0 +1,42 @@
+import type { FastifyInstance } from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
+import z from "zod";
+import { prisma } from "@/prisma/client.js";
+
+export async function GetTaskByIdRoute(app: FastifyInstance) {
+	app.withTypeProvider<ZodTypeProvider>().get(
+		"/task/:id",
+		{
+			schema: {
+				tags: ["Task"],
+				params: z.object({
+					id: z.string(),
+				}),
+			},
+		},
+		async (request, reply) => {
+			const { id } = request.params;
+			const userId = await request.getCurrentUserToken();
+
+			const findTaskById = await prisma.task.findFirst({
+				where: {
+					id,
+					userId,
+				},
+			});
+
+			if (!findTaskById) {
+				return reply.status(404).send({ message: "Task not found!" });
+			}
+
+			const taskDetails = await prisma.task.findFirst({
+				where: {
+					id,
+					userId,
+				},
+			});
+
+			return reply.status(200).send(taskDetails);
+		},
+	);
+}

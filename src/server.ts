@@ -9,6 +9,11 @@ import {
 } from "fastify-type-provider-zod";
 import { LoginUserRoute } from "./routes/auth/loginRoute.js";
 import { RegisterUserRoute } from "./routes/auth/registerRoute.js";
+import { CreateTaskRoute } from "./routes/tasks/createTaskRoute.js";
+import { DeleteTaskRoute } from "./routes/tasks/deleteTaskRoute.js";
+import { GetTaskByIdRoute } from "./routes/tasks/getTaskById.js";
+import { GetTasksRoute } from "./routes/tasks/getTasksRoute.js";
+import { UpdateTaskRoute } from "./routes/tasks/updateTaskRoute.js";
 
 const app = fastify();
 
@@ -48,6 +53,12 @@ app.register(fastifyCors, {
 
 app.register(LoginUserRoute);
 app.register(RegisterUserRoute);
+
+app.register(GetTasksRoute);
+app.register(GetTaskByIdRoute);
+app.register(CreateTaskRoute);
+app.register(UpdateTaskRoute);
+app.register(DeleteTaskRoute);
 
 app
 	.listen({ port: Number(process.env.PORT) || 3000, host: "0.0.0.0" })
