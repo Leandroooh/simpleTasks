@@ -76,29 +76,6 @@ As variáveis `POSTGRES_USER`, `POSTGRES_PASSWORD` e `POSTGRES_DB` também estã
    - API: http://localhost:3000
    - Docs: http://localhost:3000/docs
 
-## Exemplo de uso (curl)
-
-Registrar usuário:
-curl -X POST http://localhost:3000/auth/register -H "Content-Type: application/json" -d '{"email":"user@example.com","password":"secret"}'
-
-Login:
-curl -X POST http://localhost:3000/auth/login -H "Content-Type: application/json" -d '{"email":"user@example.com","password":"secret"}'
-
-Criar task (substitua <TOKEN>):
-curl -X POST http://localhost:3000/task -H "Content-Type: application/json" -H "Authorization: Bearer <TOKEN>" -d '{"title":"Nova tarefa","content":"conteúdo"}'
-
-Listar tarefas:
-curl -X GET "http://localhost:3000/tasks?page=1&pageSize=6" -H "Authorization: Bearer <TOKEN>"
-
-Detalhes de uma task:
-curl -X GET http://localhost:3000/task/<id> -H "Authorization: Bearer <TOKEN>"
-
-Atualizar:
-curl -X PATCH http://localhost:3000/task/update/<id> -H "Authorization: Bearer <TOKEN>" -H "Content-Type: application/json" -d '{"title":"Título atualizado"}'
-
-Deletar:
-curl -X DELETE http://localhost:3000/task/delete/<id> -H "Authorization: Bearer <TOKEN>"
-
 ## Observações e boas práticas
 
 - A autenticação depende de `JWT_SECRET` em [`src/server.ts`](src/server.ts).
