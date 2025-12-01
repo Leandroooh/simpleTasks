@@ -9,8 +9,8 @@
 	},
 	"scripts": {
 		"dev": "tsx watch --env-file=.env src/server.ts",
-  	"build": "tsc --build && tsc-alias",
-  	"start": "node dist/server.js",
+  	"build": "pnpm prisma generate && tsc --build && tsc-alias",
+		"start": "node dist/server.js",
 		"db:migrate": "pnpm prisma migrate deploy",
 		"db:generate": "pnpm prisma generate deploy"
 	},
