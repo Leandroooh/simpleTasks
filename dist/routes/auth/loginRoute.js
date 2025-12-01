@@ -1,6 +1,6 @@
 import { compare } from "bcryptjs";
 import { z } from "zod";
-import { prisma } from "@/prisma/client.js";
+import { prisma } from "../../prisma/client.js";
 export async function LoginUserRoute(app) {
     app.withTypeProvider().post("/auth/login", {
         schema: {

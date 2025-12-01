@@ -1,7 +1,7 @@
 import fastifyCors from "@fastify/cors";
 import fastifyJwt from "@fastify/jwt";
 import { fastifySwagger } from "@fastify/swagger";
-import ScalarApiReference from "@scalar/fastify-api-reference";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import { fastify } from "fastify";
 import {
 	jsonSchemaTransform,
@@ -15,7 +15,6 @@ import { DeleteTaskRoute } from "./routes/tasks/deleteTaskRoute.js";
 import { GetTaskByIdRoute } from "./routes/tasks/getTaskById.js";
 import { GetTasksRoute } from "./routes/tasks/getTasksRoute.js";
 import { UpdateTaskRoute } from "./routes/tasks/updateTaskRoute.js";
-import fastifySwaggerUi from '@fastify/swagger-ui';
 
 const app = fastify();
 
@@ -29,14 +28,13 @@ app.register(fastifySwagger, {
 			description: "Simple Tasks API with Register and Login",
 			version: "1.0.0",
 		},
-		
 	},
-	transform: jsonSchemaTransform
+	transform: jsonSchemaTransform,
 });
 
 app.register(fastifySwaggerUi, {
-	routePrefix: '/docs',
-})
+	routePrefix: "/docs",
+});
 
 // app.register(ScalarApiReference, {
 //   routePrefix: "/docs",

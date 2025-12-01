@@ -1,6 +1,6 @@
 import z from "zod";
-import { AuthHandler } from "@/middlewares/AuthHandler.js";
-import { prisma } from "@/prisma/client.js";
+import { AuthHandler } from "../../middlewares/AuthHandler.js";
+import { prisma } from "../../prisma/client.js";
 export async function GetTasksRoute(app) {
     app
         .withTypeProvider()

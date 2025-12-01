@@ -1,8 +1,9 @@
 import fastifyCors from "@fastify/cors";
 import fastifyJwt from "@fastify/jwt";
 import { fastifySwagger } from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 import { fastify } from "fastify";
-import { serializerCompiler, validatorCompiler, } from "fastify-type-provider-zod";
+import { jsonSchemaTransform, serializerCompiler, validatorCompiler, } from "fastify-type-provider-zod";
 import { LoginUserRoute } from "./routes/auth/loginRoute.js";
 import { RegisterUserRoute } from "./routes/auth/registerRoute.js";
 import { CreateTaskRoute } from "./routes/tasks/createTaskRoute.js";
@@ -10,7 +11,6 @@ import { DeleteTaskRoute } from "./routes/tasks/deleteTaskRoute.js";
 import { GetTaskByIdRoute } from "./routes/tasks/getTaskById.js";
 import { GetTasksRoute } from "./routes/tasks/getTasksRoute.js";
 import { UpdateTaskRoute } from "./routes/tasks/updateTaskRoute.js";
-import fastifySwaggerUi from '@fastify/swagger-ui';
 const app = fastify();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
@@ -22,9 +22,10 @@ app.register(fastifySwagger, {
             version: "1.0.0",
         },
     },
+    transform: jsonSchemaTransform,
 });
 app.register(fastifySwaggerUi, {
-    routePrefix: '/docs',
+    routePrefix: "/docs",
 });
 // app.register(ScalarApiReference, {
 //   routePrefix: "/docs",
