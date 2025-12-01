@@ -9,7 +9,7 @@
 	},
 	"scripts": {
 		"dev": "tsx watch --env-file=.env src/server.ts",
-  	"build": "pnpm prisma generate && tsc --build && tsc-alias",
+		"build": "pnpm prisma generate && tsc --build && tsc-alias",
 		"start": "node dist/server.js",
 		"db:migrate": "pnpm prisma migrate deploy",
 		"db:generate": "pnpm prisma generate deploy"
@@ -22,6 +22,7 @@
 		"@fastify/cors": "^11.1.0",
 		"@fastify/jwt": "^10.0.0",
 		"@fastify/swagger": "^9.6.1",
+		"@fastify/swagger-ui": "^5.2.3",
 		"@prisma/client": "6.19.0",
 		"@scalar/fastify-api-reference": "^1.40.0",
 		"bcryptjs": "^3.0.3",

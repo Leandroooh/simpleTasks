@@ -14,6 +14,7 @@ import { DeleteTaskRoute } from "./routes/tasks/deleteTaskRoute.js";
 import { GetTaskByIdRoute } from "./routes/tasks/getTaskById.js";
 import { GetTasksRoute } from "./routes/tasks/getTasksRoute.js";
 import { UpdateTaskRoute } from "./routes/tasks/updateTaskRoute.js";
+import fastifySwaggerUi from '@fastify/swagger-ui';
 
 const app = fastify();
 
@@ -30,14 +31,18 @@ app.register(fastifySwagger, {
 	},
 });
 
-app.register(ScalarApiReference, {
-  routePrefix: "/docs",
-  configuration: {
-    theme: "purple",
-    // desabilite opções que forçam carregar standalone.js
-    layout: "classic"
-  },
-});
+app.register(fastifySwaggerUi, {
+	routePrefix: '/docs',
+})
+
+// app.register(ScalarApiReference, {
+//   routePrefix: "/docs",
+//   configuration: {
+//     theme: "purple",
+//     // desabilite opções que forçam carregar standalone.js
+//     layout: "classic"
+//   },
+// });
 
 const secret = process.env.JWT_SECRET;
 if (!secret) {
