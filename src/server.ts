@@ -4,6 +4,7 @@ import { fastifySwagger } from "@fastify/swagger";
 import ScalarApiReference from "@scalar/fastify-api-reference";
 import { fastify } from "fastify";
 import {
+	jsonSchemaTransform,
 	serializerCompiler,
 	validatorCompiler,
 } from "fastify-type-provider-zod";
@@ -28,7 +29,9 @@ app.register(fastifySwagger, {
 			description: "Simple Tasks API with Register and Login",
 			version: "1.0.0",
 		},
+		
 	},
+	transform: jsonSchemaTransform
 });
 
 app.register(fastifySwaggerUi, {
